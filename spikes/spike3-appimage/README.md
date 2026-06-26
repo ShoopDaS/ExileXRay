@@ -14,7 +14,7 @@ npm run dist            # -> spikes/spike1-overlay/dist/*.AppImage
 
 ## Install the .desktop (optional, for the X11 session env)
 
-Copy `ExileRemnantsSpike.desktop` (in this folder) to `~/.local/share/applications/`
+Copy `ExileXRaySpike.desktop` (in this folder) to `~/.local/share/applications/`
 and point `Exec=` at the built AppImage path. It forces `XDG_SESSION_TYPE=x11`.
 
 ## STOP — success criteria (on a CLEAN Fedora 44, no extra packages)
@@ -24,7 +24,7 @@ and point `Exec=` at the built AppImage path. It forces `XDG_SESSION_TYPE=x11`.
 - [ ] **(b) Native addons** — both load at runtime. Verify the prebuilt binaries
       are in the image:
       ```bash
-      ./ExileRemnantsSpike-*.AppImage --appimage-extract >/dev/null
+      ./ExileXRaySpike-*.AppImage --appimage-extract >/dev/null
       find squashfs-root -path '*app.asar.unpacked*prebuilds*.node'
       # expect electron-overlay-window + uiohook-napi .node files
       ```

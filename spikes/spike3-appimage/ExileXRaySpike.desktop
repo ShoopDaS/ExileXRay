@@ -1,11 +1,11 @@
 [Desktop Entry]
 Type=Application
-Name=ExileRemnants Spike
+Name=ExileXRay Spike
 Comment=Phase 0 spike — overlay packaged as AppImage
 # Force X11 at the session level too (belt-and-braces with the in-app
 # appendSwitch('ozone-platform','x11')). The game is XWayland; the overlay
 # must be an X11 client or electron-overlay-window cannot attach.
-Exec=env XDG_SESSION_TYPE=x11 ExileRemnantsSpike-0.0.0.AppImage %U
-Icon=exileremnants
+Exec=env XDG_SESSION_TYPE=x11 ExileXRaySpike-0.0.0.AppImage %U
+Icon=exilexray
 Categories=Game;
 Terminal=false

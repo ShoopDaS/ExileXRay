@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. **Do Phase 0 (spikes) first — each is a hard STOP gate.** Do not start a feature milestone until its blocking spike has passed on the real target hardware.
 
-**Goal:** Port the Windows-only C# `PoeAncientsPriceHelper` ([pedro-quiterio/PoeAncientsPriceHelper](https://github.com/pedro-quiterio/PoeAncientsPriceHelper) — a click-through overlay that OCRs the PoE2 currency-exchange panel and shows live poe.ninja prices) to Linux as an Electron app shipped as a single AppImage, validated on Fedora 44 / KDE Plasma / Wayland session (X11/XWayland forced). The ported application is named **ExileRemnants**.
+**Goal:** Port the Windows-only C# `PoeAncientsPriceHelper` ([pedro-quiterio/PoeAncientsPriceHelper](https://github.com/pedro-quiterio/PoeAncientsPriceHelper) — a click-through overlay that OCRs the PoE2 currency-exchange panel and shows live poe.ninja prices) to Linux as an Electron app shipped as a single AppImage, validated on Fedora 44 / KDE Plasma / Wayland session (X11/XWayland forced). The ported application is named **ExileXRay**.
 
-> **Naming:** the app/product name is **ExileRemnants**. The source C# repo is the **behavioral spec** for *what* the app does; the EE2 directory shape below is an inherited template for *how* the Electron app is structured — directory/package names in the layout are illustrative, not required to match the repo name.
+> **Naming:** the app/product name is **ExileXRay**. The source C# repo is the **behavioral spec** for *what* the app does; the EE2 directory shape below is an inherited template for *how* the Electron app is structured — directory/package names in the layout are illustrative, not required to match the repo name.
 
 **Architecture:** Adopt Exiled-Exchange-2's (EE2) Electron platform layer wholesale — a Node **main** process (overlay windowing via `electron-overlay-window`, global input via `uiohook-napi`, a localhost WebSocket server) and a **renderer** web app (Vue 3 + Vite) that draws the overlay, talking to main over `ws://`, with shared **ipc/** types. Reuse EE2's Tesseract+OpenCV **WASM OCR worker** (currently Windows-gated) and enable it on Linux. **Transcribe** the C# pricing/detection logic to TypeScript verbatim against the original's test cases. Capture is **build-new** (Electron `desktopCapturer` + crop, BGRA). The original C# repo is a **behavioral spec, not code to run.**
 
@@ -25,7 +25,7 @@ Every task implicitly inherits these. Values are copied verbatim from the analys
 - **Decimal rounding:** C# `Math.Round(x, 1)` is `MidpointRounding.ToEven` (banker's). JS `Math.round` is half-up on binary floats. Use `decimal.js` with `ROUND_HALF_EVEN` for `exaltedValue`. `divineValue` is **unrounded**.
 - **All brightness/sampling math is integer (truncating) division; comparisons are strict** (`> 100`, `< 80`). Fuzzy score uses strict `>` vs `0.84` and `>=` vs `0.92`.
 - **Native-addon ABI:** run `@electron/rebuild -v <electron 40.x>` after install with a current `node-abi`; verify `app.asar.unpacked/**/prebuilds/*.node` exists in the **packaged** AppImage, not just `npm start`. Pin `electron-overlay-window@4.1.0` (fresher prebuilds than 4.0.2).
-- **Config path:** map `%LocalAppData%\PoeAncientsPriceHelper\` → `app.getPath('userData')` (≈ `~/.config/ExileRemnants`). Region geometry is **machine-specific — never sync/roam it.** Writes are atomic (temp file + rename).
+- **Config path:** map `%LocalAppData%\PoeAncientsPriceHelper\` → `app.getPath('userData')` (≈ `~/.config/ExileXRay`). Region geometry is **machine-specific — never sync/roam it.** Writes are atomic (temp file + rename).
 - **When C# comments contradict constants, follow the constant** (Flag F6: stale comments on `StaleLimit`, heartbeat, `OpenBrightness`).
 - **Commits:** never add a `Co-Authored-By` line; keep messages short and single-line.
 
@@ -50,7 +50,7 @@ A single `.AppImage` that, double-clicked on a clean Fedora 44 / KDE Wayland box
 Mirror EE2's three-package shape (no root `package.json`; `main/` and `renderer/` are separate npm packages glued by relative imports + `ipc/`).
 
 ```
-ExileRemnants/                            # (layout shape inherited from EE2; names illustrative)
+ExileXRay/                            # (layout shape inherited from EE2; names illustrative)
 ├── ipc/                                  # shared TS, compiled into both halves
 │   ├── types.ts                          # Event<Name,Payload> union — OUR currency events
 │   └── KeyToCode.ts                      # reuse-verbatim from EE2 (keycode maps)
@@ -475,7 +475,7 @@ it('referer', () => expect(buildReferer('HC Runes of Aldur','Currency')).toConta
 
 **Tasks:**
 
-- [ ] `electron-builder.yml`: `appId` (e.g. `com.exileremnants.app`), `productName: ExileRemnants`, `linux.target:["AppImage"]`, `linux.category:"Game"`, **`toolsets:{appimage:"1.0.3"}`**, `files` (main.js, vision.js, renderer/dist, package.json), `extraResources:[{from:'resources/cv-ocr',to:'cv-ocr'}]`, `asarUnpack:["**/node_modules/electron-overlay-window/**","**/node_modules/uiohook-napi/**"]`.
+- [ ] `electron-builder.yml`: `appId` (e.g. `com.exilexray.app`), `productName: ExileXRay`, `linux.target:["AppImage"]`, `linux.category:"Game"`, **`toolsets:{appimage:"1.0.3"}`**, `files` (main.js, vision.js, renderer/dist, package.json), `extraResources:[{from:'resources/cv-ocr',to:'cv-ocr'}]`, `asarUnpack:["**/node_modules/electron-overlay-window/**","**/node_modules/uiohook-napi/**"]`.
 - [ ] `.desktop` `Exec=env XDG_SESSION_TYPE=x11 <AppImage> %U`; verify `app.commandLine.appendSwitch('ozone-platform','x11')` in main.
 - [ ] Sandbox: rely on Fedora userns; add `--no-sandbox` fallback only if abort. **Do not** copy EE2's `--sandbox` (Flag F2).
 - [ ] `@electron/rebuild -v <40.x>` in build; verify unpacked `prebuilds/*.node` in the artifact.

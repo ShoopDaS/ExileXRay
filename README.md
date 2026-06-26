@@ -1,8 +1,8 @@
-# ExileRemnants
+# ExileXRay
 
 A click-through price overlay for **Path of Exile 2** on Linux.
 
-When you open the in-game currency-exchange panel, ExileRemnants reads the list
+When you open the in-game currency-exchange panel, ExileXRay reads the list
 off the screen with OCR, looks up live prices from [poe.ninja](https://poe.ninja),
 and draws a price tag next to each row — stack totals, divine/exalted value, gem
 level — without ever leaving the game.
@@ -20,7 +20,7 @@ Electron platform layer.
 ## Target platform
 
 - **Fedora 44 / KDE Plasma / Wayland session**, with PoE2 running via Steam Proton.
-- The game runs as an X11 (XWayland) client, so ExileRemnants forces itself to run
+- The game runs as an X11 (XWayland) client, so ExileXRay forces itself to run
   under X11 too — that is what lets the transparent overlay attach to the game window.
 - Shipped as a single double-clickable `.AppImage` (no libfuse2 required).
 

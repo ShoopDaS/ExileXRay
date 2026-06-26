@@ -4,8 +4,8 @@
 #   - no chrome-sandbox abort
 #   - native addons (electron-overlay-window, uiohook-napi) load from
 #     app.asar.unpacked/**/prebuilds/*.node inside the packaged image
-appId: com.exileremnants.spike
-productName: ExileRemnantsSpike
+appId: com.exilexray.spike
+productName: ExileXRaySpike
 directories:
   output: dist
 files:
