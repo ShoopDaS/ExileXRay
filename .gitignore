@@ -77,6 +77,11 @@ desktop.ini
 /tmp-capture/
 debug-crop*.png
 
+# Phase 0 spike artifacts (downloaded assets / debug dumps — re-creatable)
+spikes/**/cv-ocr/
+spikes/**/cv-ocr.zip
+spikes/**/capture-debug.png
+
 # NOTE: the following are intentionally NOT ignored — they are vendored/committed:
 #   resources/cv-ocr/**     (Tesseract + OpenCV WASM, eng.traineddata)
 #   renderer/public/**      (bundled icons)

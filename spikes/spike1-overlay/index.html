@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      /* Transparent page so we can see the game behind the overlay. */
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: transparent;
+        overflow: hidden;
+        /* click-through is enforced by the OS-level overlay; this is belt-and-braces */
+        pointer-events: none;
+      }
+      .plate {
+        position: absolute;
+        top: 120px;
+        left: 120px;
+        width: 320px;
+        padding: 16px 20px;
+        /* Semi-transparent slate, matching the real price-plate alpha (0.59). */
+        background: rgba(64, 55, 55, 0.59);
+        border-radius: 8px;
+        color: rgb(80, 255, 120);
+        font: 20px/1.4 monospace;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="plate">
+      Spike 1 overlay<br />
+      If you can see the game THROUGH this slate (not black),<br />
+      transparency works. ✔
+    </div>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "spike1-overlay",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Phase 0 / Spike 1 — overlay core on Fedora/KDE (X11 forced)",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "rebuild": "electron-rebuild -f -w electron-overlay-window,uiohook-napi",
+    "dist": "electron-builder --linux AppImage --config electron-builder.yml"
+  },
+  "dependencies": {
+    "electron-overlay-window": "4.1.0",
+    "uiohook-napi": "1.5.5"
+  },
+  "devDependencies": {
+    "@electron/rebuild": "^3.7.0",
+    "electron": "^40.0.0",
+    "electron-builder": "^25.1.8"
+  }
+}

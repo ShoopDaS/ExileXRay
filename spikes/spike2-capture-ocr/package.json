@@ -1,0 +1,13 @@
+{
+  "name": "spike2-capture-ocr",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Phase 0 / Spike 2 — capture + de-gated OCR on Linux",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^40.0.0"
+  }
+}

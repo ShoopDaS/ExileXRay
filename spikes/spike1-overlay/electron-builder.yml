@@ -1,0 +1,30 @@
+# Phase 0 / Spike 3 — package the Spike 1 overlay app as a single AppImage.
+# Validates the riskiest packaging assumptions on a clean Fedora 44 box:
+#   - no libfuse2 needed (static appimage toolset 1.0.3)
+#   - no chrome-sandbox abort
+#   - native addons (electron-overlay-window, uiohook-napi) load from
+#     app.asar.unpacked/**/prebuilds/*.node inside the packaged image
+appId: com.exileremnants.spike
+productName: ExileRemnantsSpike
+directories:
+  output: dist
+files:
+  - main.js
+  - index.html
+  - package.json
+linux:
+  target:
+    - AppImage
+  category: Game
+# Fedora 44 has no libfuse2 — use the static runtime (no FUSE2 dependency).
+# Do NOT add EE2's `--sandbox` arg here (re-introduces the Fedora abort — Flag F2).
+appImage:
+  # electron-builder >= 25 reads the static toolset under `toolsets`.
+  # If your builder version ignores this, see spike3-appimage/README.md for the
+  # APPIMAGE_EXTRACT_AND_RUN / --no-sandbox fallbacks.
+  toolsets:
+    appimage: "1.0.3"
+# Native addons must stay unpacked so their .node prebuilds are loadable.
+asarUnpack:
+  - "**/node_modules/electron-overlay-window/**"
+  - "**/node_modules/uiohook-napi/**"
